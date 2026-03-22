@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prévia de Sustentações Orais — Gerador</title>
+<title>Prévia de Sustentações Orais — v1.1</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap');
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
     font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -25,173 +24,83 @@
   }
   .header h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
   .header p { font-size: 13px; opacity: 0.8; margin-top: 4px; }
-  .container {
-    width: 100%;
-    max-width: 700px;
-    padding: 32px 24px;
-  }
+  .container { width: 100%; max-width: 720px; padding: 32px 24px; }
   .card {
-    background: white;
-    border-radius: 10px;
-    padding: 28px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    background: white; border-radius: 10px; padding: 28px;
+    margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   }
   .card h2 {
-    font-size: 15px;
-    font-weight: 700;
-    color: #1a3a5c;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 15px; font-weight: 700; color: #1a3a5c;
+    margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
   }
   .card h2 .num {
-    background: #1a3a5c;
-    color: white;
-    width: 26px; height: 26px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
+    background: #1a3a5c; color: white; width: 26px; height: 26px;
+    border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; font-size: 13px; flex-shrink: 0;
   }
-  label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: #444;
-    margin-bottom: 6px;
+  label { display: block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 6px; }
+  input[type="text"], select, textarea {
+    width: 100%; padding: 10px 14px; border: 1.5px solid #d0d5dd;
+    border-radius: 8px; font-size: 14px; font-family: inherit;
+    transition: border-color 0.2s; background: white;
   }
-  input[type="text"], select {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1.5px solid #d0d5dd;
-    border-radius: 8px;
-    font-size: 14px;
-    font-family: inherit;
-    transition: border-color 0.2s;
-    background: white;
-  }
-  input[type="text"]:focus, select:focus {
-    outline: none;
-    border-color: #2c5f8a;
+  input[type="text"]:focus, select:focus, textarea:focus {
+    outline: none; border-color: #2c5f8a;
     box-shadow: 0 0 0 3px rgba(44,95,138,0.12);
   }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+  .help-text { font-size: 11px; color: #888; margin-top: 4px; line-height: 1.4; }
   .row { display: flex; gap: 14px; margin-bottom: 14px; }
   .row > div { flex: 1; }
   .drop-zone {
-    border: 2px dashed #c0c8d4;
-    border-radius: 10px;
-    padding: 36px 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.25s;
-    background: #f8f9fb;
+    border: 2px dashed #c0c8d4; border-radius: 10px; padding: 36px 20px;
+    text-align: center; cursor: pointer; transition: all 0.25s; background: #f8f9fb;
   }
-  .drop-zone:hover, .drop-zone.dragover {
-    border-color: #2c5f8a;
-    background: #edf2f8;
-  }
-  .drop-zone.loaded {
-    border-color: #2e7d32;
-    background: #e8f5e9;
-  }
+  .drop-zone:hover, .drop-zone.dragover { border-color: #2c5f8a; background: #edf2f8; }
+  .drop-zone.loaded { border-color: #2e7d32; background: #e8f5e9; }
   .drop-zone .icon { font-size: 36px; margin-bottom: 8px; }
   .drop-zone .text { font-size: 14px; color: #555; }
   .drop-zone .filename { font-size: 13px; color: #2e7d32; font-weight: 600; margin-top: 6px; }
   .drop-zone input { display: none; }
   .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 700;
-    font-family: inherit;
-    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 14px; border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer;
     transition: all 0.2s;
   }
-  .btn-primary {
-    background: linear-gradient(135deg, #1a3a5c, #2c5f8a);
-    color: white;
-  }
-  .btn-primary:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(26,58,92,0.3);
-  }
-  .btn-primary:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  .status {
-    margin-top: 16px;
-    padding: 14px 18px;
-    border-radius: 8px;
-    font-size: 13px;
-    display: none;
-  }
-  .status.success {
-    display: block;
-    background: #e8f5e9;
-    color: #2e7d32;
-    border: 1px solid #a5d6a7;
-  }
-  .status.error {
-    display: block;
-    background: #fbe9e7;
-    color: #c62828;
-    border: 1px solid #ef9a9a;
-  }
-  .status.info {
-    display: block;
-    background: #e3f2fd;
-    color: #1565c0;
-    border: 1px solid #90caf9;
-  }
+  .btn-primary { background: linear-gradient(135deg, #1a3a5c, #2c5f8a); color: white; }
+  .btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(26,58,92,0.3); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+  .status { margin-top: 16px; padding: 14px 18px; border-radius: 8px; font-size: 13px; display: none; }
+  .status.success { display: block; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+  .status.error { display: block; background: #fbe9e7; color: #c62828; border: 1px solid #ef9a9a; }
+  .status.info { display: block; background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
   .preview {
-    margin-top: 16px;
-    max-height: 300px;
-    overflow-y: auto;
-    font-size: 12px;
-    color: #555;
-    background: #f8f9fb;
-    padding: 14px;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    display: none;
+    margin-top: 16px; max-height: 300px; overflow-y: auto; font-size: 12px;
+    color: #555; background: #f8f9fb; padding: 14px; border-radius: 8px;
+    border: 1px solid #e0e0e0; display: none;
   }
   .preview table { width: 100%; border-collapse: collapse; }
   .preview th { background: #eee; font-weight: 600; text-align: left; }
-  .preview th, .preview td {
-    padding: 4px 8px;
-    border-bottom: 1px solid #e0e0e0;
-    font-size: 11px;
-    white-space: nowrap;
-  }
+  .preview th, .preview td { padding: 4px 8px; border-bottom: 1px solid #e0e0e0; font-size: 11px; white-space: nowrap; }
   .preview .prio-0 { background: #fff3e0; }
   .preview .prio-1 { background: #e8f5e9; }
   .preview .prio-2 { background: #e3f2fd; }
-  .footer {
-    text-align: center;
-    font-size: 11px;
-    color: #999;
-    padding: 16px;
-  }
+  .footer { text-align: center; font-size: 11px; color: #999; padding: 16px; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>PRÉVIA DE SUSTENTAÇÕES ORAIS</h1>
+  <h1>PRÉVIA DE SUSTENTAÇÕES ORAIS - VERSÃO 1.1</h1>
   <p>Gerador automático de lista — TRF1</p>
 </div>
 
 <div class="container">
+
+  <div style="background:#fff3e0; border:1px solid #ffcc80; border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:#e65100;">
+    <strong>💡 Dica:</strong> Se quiser que um processo não seja inserido na prévia da lista, escreva <strong>EXCLUIR</strong> na coluna de observações (terceira coluna) do Excel.
+  </div>
 
   <!-- STEP 1: Config -->
   <div class="card">
@@ -199,28 +108,40 @@
     <div class="row">
       <div>
         <label>Órgão Julgador (Turma)</label>
-        <input type="text" id="turma" placeholder="Ex: SÉTIMA TURMA" value="">
+        <input type="text" id="turma" placeholder="Ex: SÉTIMA TURMA">
       </div>
-      <div>
-        <label>Sala (opcional)</label>
-        <input type="text" id="sala" placeholder="Ex: PLENARINHO">
-      </div>
-    </div>
-    <div class="row">
       <div>
         <label>Data da Sessão</label>
-        <input type="text" id="dataSessao" placeholder="Ex: 24.03.2026">
+        <input type="text" id="dataSessao" placeholder="dd/mm/aaaa" maxlength="10">
       </div>
-      <div>
-        <label>Nº da Sessão (opcional)</label>
-        <input type="text" id="numSessao" placeholder="Ex: 3ª">
-      </div>
+    </div>
+    <div style="margin-top:10px">
+      <label>Participantes da Sessão</label>
+      <div class="help-text" style="margin-bottom:8px">Escreva apenas os nomes e demais complementos que desejar, ex: Conv. nos termos do ato Presi xx</div>
+      <input type="text" id="presidente" placeholder="Presidente (ex: Roberto Carvalho Veloso)" style="margin-bottom:8px">
+      <input type="text" id="desemb2" placeholder="2º Desembargador Federal (ex: Jamil Rosa de Jesus Oliveira)" style="margin-bottom:8px">
+      <input type="text" id="desemb3" placeholder="3º Desembargador Federal (ex: Pedro Braga Filho)" style="margin-bottom:8px">
+      <textarea id="juizAux" placeholder="Juízes Federais auxiliares/convocados (opcional, um por linha)" rows="2" style="margin-bottom:8px"></textarea>
+      <input type="text" id="prr" placeholder="PRR (ex: Nara Soares Dantas)" style="margin-bottom:8px">
     </div>
   </div>
 
-  <!-- STEP 2: Upload -->
+  <!-- STEP 2: Agrupamento -->
   <div class="card">
-    <h2><span class="num">2</span> Importar Planilha Excel</h2>
+    <h2><span class="num">2</span> Agrupamento de Processos</h2>
+    <label>Processos agrupados (uma sustentação para vários processos)</label>
+    <textarea id="agrupamento" placeholder="Um processo por linha ou separados por vírgula.&#10;Separe grupos diferentes com uma LINHA EM BRANCO.&#10;&#10;Exemplo (grupo 1):&#10;1078535-71.2022.4.01.3400&#10;1072365-49.2023.4.01.3400&#10;&#10;Exemplo (grupo 2):&#10;0032076-29.2002.4.01.3400&#10;0032077-14.2002.4.01.3400" rows="6"></textarea>
+    <div class="help-text">
+      Processos do mesmo grupo = um único item com sub-numeração (ex: 5.1, 5.2, 5.3).<br>
+      <strong>Linha em branco</strong> separa grupos diferentes.<br>
+      Se houver mais de um advogado pedindo sustentação nos processos do grupo, todos serão listados.<br>
+      Deixe em branco se não houver agrupamento.
+    </div>
+  </div>
+
+  <!-- STEP 3: Upload -->
+  <div class="card">
+    <h2><span class="num">3</span> Importar Planilha Excel</h2>
     <div class="drop-zone" id="dropZone">
       <div class="icon">📂</div>
       <div class="text">Arraste o arquivo .xlsx aqui ou clique para selecionar</div>
@@ -230,20 +151,16 @@
     <div class="preview" id="preview"></div>
   </div>
 
-  <!-- STEP 3: Generate -->
+  <!-- STEP 4: Generate -->
   <div class="card">
-    <h2><span class="num">3</span> Gerar Documento Word</h2>
-    <button class="btn btn-primary" id="btnGenerate" disabled>
-      📄 Gerar Prévia (.docx)
-    </button>
+    <h2><span class="num">4</span> Gerar Documento Word</h2>
+    <button class="btn btn-primary" id="btnGenerate" disabled>📄 Gerar Prévia (.docx)</button>
     <div class="status" id="status"></div>
   </div>
 
 </div>
 
-<div class="footer">
-  Ferramenta offline — funciona sem internet após o primeiro carregamento.
-</div>
+<div class="footer">Ferramenta offline — funciona sem internet após o primeiro carregamento.</div>
 
 <script src="jszip.min.js"></script>
 <script src="docx.iife.js"></script>
@@ -253,8 +170,6 @@
 // ============================================================
 async function parseXlsx(arrayBuffer) {
   const zip = await JSZip.loadAsync(arrayBuffer);
-
-  // Parse shared strings
   const ssXml = await zip.file("xl/sharedStrings.xml")?.async("text");
   const sharedStrings = [];
   if (ssXml) {
@@ -262,54 +177,34 @@ async function parseXlsx(arrayBuffer) {
     const doc = parser.parseFromString(ssXml, "application/xml");
     const sis = doc.getElementsByTagName("si");
     for (let i = 0; i < sis.length; i++) {
-      // Handle both <t> and <r><t> (rich text)
       const tNodes = sis[i].getElementsByTagName("t");
       let val = "";
-      for (let j = 0; j < tNodes.length; j++) {
-        val += tNodes[j].textContent || "";
-      }
+      for (let j = 0; j < tNodes.length; j++) val += tNodes[j].textContent || "";
       sharedStrings.push(val);
     }
   }
-
-  // Parse first worksheet
   const sheetXml = await zip.file("xl/worksheets/sheet1.xml")?.async("text");
   if (!sheetXml) throw new Error("Planilha não encontrada (sheet1.xml)");
-  
   const parser = new DOMParser();
   const doc = parser.parseFromString(sheetXml, "application/xml");
   const rows = doc.getElementsByTagName("row");
-  
   const data = [];
   for (let i = 0; i < rows.length; i++) {
     const cells = rows[i].getElementsByTagName("c");
     const rowData = {};
     for (let j = 0; j < cells.length; j++) {
       const cell = cells[j];
-      const ref = cell.getAttribute("r"); // e.g. "A1"
+      const ref = cell.getAttribute("r");
       const type = cell.getAttribute("t");
       const vNode = cell.getElementsByTagName("v")[0];
       if (!vNode) continue;
       const raw = vNode.textContent;
-      
-      // Get column letter(s)
       const col = ref.replace(/[0-9]/g, "");
-      
-      let value;
-      if (type === "s") {
-        value = sharedStrings[parseInt(raw)] || "";
-      } else if (type === "b") {
-        value = raw === "1";
-      } else {
-        // Could be number or date
-        value = raw;
-      }
-      rowData[col] = value;
+      rowData[col] = type === "s" ? (sharedStrings[parseInt(raw)] || "") : raw;
     }
     data.push(rowData);
   }
-  
-  return data; // Array of {col: value} objects, including header row
+  return data;
 }
 
 // ============================================================
@@ -317,9 +212,9 @@ async function parseXlsx(arrayBuffer) {
 // ============================================================
 const ORIGIN_UF = {"31":"AC","32":"AM","33":"BA","34":"DF","35":"GO","36":"MT","37":"MA","38":"MG","39":"PA","40":"PI","41":"RO","42":"RR","43":"TO"};
 const CLASS_ABBREV = {
-  "APELAÇÃO / REMESSA NECESSÁRIA (1728)": "APELREMNEC",
-  "APELAÇÃO CÍVEL (198)": "APCIV",
-  "AGRAVO DE INSTRUMENTO (202)": "AI"
+  "APELAÇÃO / REMESSA NECESSÁRIA (1728)":"APELREMNEC",
+  "APELAÇÃO CÍVEL (198)":"APCIV",
+  "AGRAVO DE INSTRUMENTO (202)":"AI"
 };
 const MASC_ENTITIES = ["CONSELHO","DEPARTAMENTO","INSTITUTO","BANCO","MUNICÍPIO","MUNICIPIO","MINISTÉRIO","MINISTERIO","ESTADO","IBAMA","BNDES","DELEGADO","POSTO","CONDOMÍNIO","CONDOMINIO","DNPM","MPF"];
 const FEM_ENTITIES = ["UNIÃO","UNIAO","AGÊNCIA","AGENCIA","UNIVERSIDADE","FUNDAÇÃO","FUNDACAO","CIA","EMPRESA"];
@@ -327,99 +222,78 @@ const MASC_NAMES = new Set(["EDIVALDO","GILMAR","OSMIR","EXPEDITO","JALDIR","CEL
 const FEM_NAMES = new Set(["SOPHIA","ANA","MARIA","RENATA","PAULA","CAMILA","VIDA","EDELZUITA","AMANDA","PATRICIA","TAYANE","NATHALIA","POLLYANNA"]);
 const FEM_ADV_NAMES = new Set(["SOPHIA","ANA","MARIA","RENATA","PAULA","CAMILA","VIDA","EDELZUITA","AMANDA","PATRICIA","NATHALIA","POLLYANNA"]);
 
-function stripAccents(s) {
-  return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-}
+function stripAccents(s) { return s.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); }
 
 function getUf(cnj) {
   const m = cnj.match(/\.(\d{4})$/);
-  if (m) {
-    const prefix = m[1].substring(0, 2);
-    if (prefix === "00") return "";
-    return ORIGIN_UF[prefix] ? "/" + ORIGIN_UF[prefix] : "";
-  }
+  if (m) { const p = m[1].substring(0,2); return p === "00" ? "" : (ORIGIN_UF[p] ? "/"+ORIGIN_UF[p] : ""); }
   return "";
 }
-
 function normalizeOab(s) {
   if (!s) return "";
   s = s.trim();
-  if (s.toUpperCase().startsWith("OAB")) {
-    s = s.replace(/\s*[Nn]\.?[ºo°]?\s*/g, " ");
-    return s.replace(/\s+/g, " ").trim();
-  }
+  if (s.toUpperCase().startsWith("OAB")) { return s.replace(/\s*[Nn]\.?[ºo°]?\s*/g," ").replace(/\s+/g," ").trim(); }
   if (s.toUpperCase().startsWith("ADV")) return s;
   const m = s.match(/^([\d.]+)\/(\w+)/);
-  if (m) return `OAB/${m[2]} ${m[1]}`;
-  return s;
+  return m ? `OAB/${m[2]} ${m[1]}` : s;
 }
-
-function hasPluralMarker(name) {
-  return /\bE\s+OUTR[OA]S?\b/.test((name || "").toUpperCase());
-}
-
+function hasPluralMarker(n) { return /\bE\s+OUTR[OA]S?\b/.test((n||"").toUpperCase()); }
 function isPartyFeminine(name) {
-  const upper = (name || "").toUpperCase().trim();
+  const upper = (name||"").toUpperCase().trim();
   if (!upper) return true;
-  const clean = upper.replace(/\s+E\s+OUTR[OA]S?\s*$/i, "").trim();
+  const clean = upper.replace(/\s+E\s+OUTR[OA]S?\s*$/i,"").trim();
   const normalized = stripAccents(clean);
   if (/LTDA|S\.A\.|S\/A|SA |EIRELI|INDUSTRIA|INDÚSTRIA/.test(upper)) return true;
-  const first = normalized.split(/\s+/)[0] || "";
-  for (const m of MASC_ENTITIES) {
-    if (normalized.startsWith(stripAccents(m))) return false;
-  }
-  for (const f of FEM_ENTITIES) {
-    if (normalized.startsWith(stripAccents(f))) return true;
-  }
+  const first = normalized.split(/\s+/)[0]||"";
+  for (const m of MASC_ENTITIES) { if (normalized.startsWith(stripAccents(m))) return false; }
+  for (const f of FEM_ENTITIES) { if (normalized.startsWith(stripAccents(f))) return true; }
   if (MASC_NAMES.has(first)) return false;
   if (FEM_NAMES.has(first)) return true;
   return true;
 }
-
-function getAdvTitle(name) {
-  const fn = stripAccents((name.split(/\s+/)[0] || "").toUpperCase());
-  return FEM_ADV_NAMES.has(fn) ? "DRA." : "DR.";
-}
-
-function buildPelaPrefix(partyName, isActivePole, classType) {
-  const fem = isPartyFeminine(partyName);
-  const plural = hasPluralMarker(partyName);
-  const isAgravo = classType.toUpperCase().includes("AGRAVO");
-  
+function getAdvTitle(name) { return FEM_ADV_NAMES.has(stripAccents((name.split(/\s+/)[0]||"").toUpperCase())) ? "DRA." : "DR."; }
+function buildPelaPrefix(partyName, isActive, classType) {
+  const fem = isPartyFeminine(partyName), plural = hasPluralMarker(partyName);
+  const agr = classType.toUpperCase().includes("AGRAVO");
   let role, prefix;
-  if (isActivePole) {
-    if (isAgravo) {
-      role = plural ? "AGRAVANTES" : "AGRAVANTE";
-    } else {
-      role = plural ? "APELANTES" : "APELANTE";
-    }
-    prefix = plural ? (fem ? "PELAS" : "PELOS") : (fem ? "PELA" : "PELO");
+  if (isActive) {
+    role = agr ? (plural?"AGRAVANTES":"AGRAVANTE") : (plural?"APELANTES":"APELANTE");
+    prefix = plural ? (fem?"PELAS":"PELOS") : (fem?"PELA":"PELO");
   } else {
-    if (isAgravo) {
-      role = plural ? (fem ? "AGRAVADAS" : "AGRAVADOS") : (fem ? "AGRAVADA" : "AGRAVADO");
-    } else {
-      role = plural ? (fem ? "APELADAS" : "APELADOS") : (fem ? "APELADA" : "APELADO");
-    }
-    prefix = plural ? (fem ? "PELAS" : "PELOS") : (fem ? "PELA" : "PELO");
+    role = agr ? (plural?(fem?"AGRAVADAS":"AGRAVADOS"):(fem?"AGRAVADA":"AGRAVADO")) : (plural?(fem?"APELADAS":"APELADOS"):(fem?"APELADA":"APELADO"));
+    prefix = plural ? (fem?"PELAS":"PELOS") : (fem?"PELA":"PELO");
   }
   return `${prefix} ${role}:`;
 }
-
 function determinePole(rep, pa, pp) {
-  const ru = (rep || "").toUpperCase().trim();
-  const pau = (pa || "").toUpperCase().trim();
-  const ppu = (pp || "").toUpperCase().trim();
-  if (!ru) return true;
-  const matchA = pau && (ru.includes(pau) || pau.includes(ru));
-  const matchP = ppu && (ru.includes(ppu) || ppu.includes(ru));
-  if (matchA && !matchP) return true;
-  if (matchP && !matchA) return false;
-  const rw = new Set(ru.split(/\s+/).filter(w => w.length > 3));
-  const paw = new Set(pau.split(/\s+/).filter(w => w.length > 3));
-  const ppw = new Set(ppu.split(/\s+/).filter(w => w.length > 3));
-  const ma = [...rw].filter(w => paw.has(w)).length;
-  const mp = [...rw].filter(w => ppw.has(w)).length;
-  return ma >= mp;
+  const ru=(rep||"").toUpperCase().trim(), pau=(pa||"").toUpperCase().trim(), ppu=(pp||"").toUpperCase().trim();
+  if (!ru || ru === "NÃO IDENTIFICADO") return "none";
+  const mA=pau&&(ru.includes(pau)||pau.includes(ru)), mP=ppu&&(ru.includes(ppu)||ppu.includes(ru));
+  if (mA&&!mP) return "active"; if (mP&&!mA) return "passive";
+  const rw=new Set(ru.split(/\s+/).filter(w=>w.length>3));
+  const ma=[...rw].filter(w=>new Set(pau.split(/\s+/).filter(x=>x.length>3)).has(w)).length;
+  const mp=[...rw].filter(w=>new Set(ppu.split(/\s+/).filter(x=>x.length>3)).has(w)).length;
+  if (ma > mp) return "active";
+  if (mp > ma) return "passive";
+  if (ma === 0 && mp === 0) return "none";
+  return "active";
+}
+
+// ============================================================
+//  PARSE GROUPING TEXTAREA
+// ============================================================
+function parseGroups() {
+  const text = document.getElementById("agrupamento").value.trim();
+  if (!text) return {};
+  const cnjToGroup = {};
+  // Split by blank lines to get groups
+  const blocks = text.split(/\n\s*\n/).filter(b => b.trim());
+  blocks.forEach((block, idx) => {
+    // Extract all CNJ patterns from the block (handles comma-separated or one per line)
+    const matches = block.match(/\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}/g) || [];
+    matches.forEach(cnj => { cnjToGroup[cnj] = idx; });
+  });
+  return cnjToGroup;
 }
 
 // ============================================================
@@ -428,111 +302,184 @@ function determinePole(rep, pa, pp) {
 let processedData = null;
 
 function processExcelData(rows) {
-  // rows[0] = header, rows[1..] = data
-  const header = rows[0];
-  const dataRows = rows.slice(1).filter(r => r.D); // must have CNJ
-  
+  const cnjToGroup = parseGroups();
+  const dataRows = rows.slice(1).filter(r => r.D);
+
+  // Parse all items
   const items = [];
+  let itemIdx = 0;
   for (const r of dataRows) {
-    const cnj = (r.D || "").trim();
-    const classe = (r.A || "").trim();
-    let relator = (r.F || "").trim();
-    const tipo = (r.G || "").trim();
-    const modalidade = (r.H || "").trim();
-    const advogado = (r.J || "").trim();
-    const oab = normalizeOab((r.K || "").trim());
-    const representada = (r.O || "").trim();
-    const pa = (r.P || "").trim();
-    const pp = (r.Q || "").trim();
-    const obsC = (r.C || "").trim();
-    
+    const cnj = (r.D||"").trim();
+    const classe = (r.A||"").trim();
+    let relator = (r.F||"").trim();
+    const tipo = (r.G||"").trim();
+    const modalidade = (r.H||"").trim();
+    const advogado = (r.J||"").trim();
+    const oab = normalizeOab((r.K||"").trim());
+    const representada = (r.O||"").trim();
+    const pa = (r.P||"").trim();
+    const pp = (r.Q||"").trim();
+    const obsC = (r.C||"").trim();
+
+    // Skip processes marked as EXCLUIR
+    if (obsC.toUpperCase().includes("EXCLUIR")) { itemIdx++; continue; }
+
     const uf = getUf(cnj);
     const abbrev = CLASS_ABBREV[classe] || classe;
-    
+
     let pedidoVista = false;
     if (relator.toUpperCase().includes("PEDIDO DE VISTA")) {
-      relator = relator.replace(/\s*-\s*PEDIDO DE VISTA/i, "").trim();
+      relator = relator.replace(/\s*-\s*PEDIDO DE VISTA/i,"").trim();
       pedidoVista = true;
     }
     let relDisplay = relator;
-    if (!relDisplay.toUpperCase().startsWith("EXMO")) {
-      relDisplay = "EXMO. SR. " + relDisplay;
-    }
-    
+    if (!relDisplay.toUpperCase().startsWith("EXMO")) relDisplay = "EXMO. SR. " + relDisplay;
+
     const isPresencial = modalidade.toUpperCase().includes("PRESENCIAL");
-    
+
     const obs = [];
     let priority = 4;
-    if (pedidoVista) {
-      obs.push("PEDIDO DE VISTA.");
-      priority = 0;
-    }
-    if (obsC && !["", "NONE", "DUAS SUSTS"].includes(obsC.toUpperCase())) {
-      if (obsC.toUpperCase().includes("IDOSO")) {
-        obs.push("PREFERÊNCIA LEGAL NA ORDEM DE VOTAÇÃO (IDOSO).");
-        if (priority > 1) priority = 1;
-      } else if (obsC.toUpperCase().includes("GESTANTE")) {
-        obs.push("PREFERÊNCIA LEGAL NA ORDEM DE VOTAÇÃO (GESTANTE).");
-        if (priority > 1) priority = 1;
-      } else if (obsC.toUpperCase().includes("LACTANTE")) {
-        obs.push("PREFERÊNCIA LEGAL NA ORDEM DE VOTAÇÃO (LACTANTE).");
-        if (priority > 1) priority = 1;
-      } else if (obsC.toUpperCase().includes("COMPROMISSO")) {
-        obs.push(`ADVOGADO(A) INFORMA: ${obsC.toUpperCase()}.`);
-      } else {
-        obs.push(obsC.toUpperCase());
-      }
+    if (pedidoVista) { obs.push("PEDIDO DE VISTA."); priority = 0; }
+    if (obsC && !["","NONE","DUAS SUSTS"].includes(obsC.toUpperCase())) {
+      if (obsC.toUpperCase().includes("IDOSO")) { obs.push("IDOSO."); if (priority>1) priority=1; }
+      else if (obsC.toUpperCase().includes("GESTANTE")) { obs.push("GESTANTE."); if (priority>1) priority=1; }
+      else if (obsC.toUpperCase().includes("LACTANTE")) { obs.push("LACTANTE."); if (priority>1) priority=1; }
+      else if (obsC.toUpperCase().includes("COMPROMISSO")) { obs.push(`ADVOGADO(A) INFORMA: ${obsC.toUpperCase()}.`); }
+      else { obs.push(obsC.toUpperCase()); }
     }
     if (priority > 2 && isPresencial) priority = 2;
-    
-    const isActive = determinePole(representada, pa, pp);
-    const pelaStr = buildPelaPrefix(representada, isActive, classe);
-    
+
+    // Track missing fields
+    const missingFields = [];
+    if (!pa) missingFields.push("POLO ATIVO");
+    if (!pp) missingFields.push("POLO PASSIVO");
+    if (!advogado) missingFields.push("ADVOGADO");
+    if (!oab) missingFields.push("OAB");
+
+    const poleResult = determinePole(representada, pa, pp);
+    const isActive = poleResult === "active";
+    const poleNotFound = poleResult === "none";
+
     items.push({
       cnj, cnjDisplay: `${abbrev} ${cnj}${uf}`, classe, tipo,
       relatorDisplay: relDisplay.toUpperCase(),
-      pa, pp, priority, obs, isPresencial,
+      pa, pp, priority, obs, isPresencial, missingFields,
+      groupId: cnjToGroup[cnj] !== undefined ? cnjToGroup[cnj] : null,
+      originalIndex: itemIdx++,
       lawyer: {
-        title: getAdvTitle(advogado),
-        advogado,
-        oab,
-        isPresencial,
-        representada,
-        pelaStr,
-        isActivePole: isActive
+        title: getAdvTitle(advogado), advogado, oab, isPresencial,
+        representada, pelaStr: poleNotFound ? "" : buildPelaPrefix(representada, isActive, classe),
+        isActivePole: isActive, poleNotFound
       }
     });
   }
-  
-  // Group by CNJ
+
+  // Separate sustentações and preferências
+  const susts = items.filter(r => r.tipo.toUpperCase().includes("SUSTENTAÇÃO"));
+  const prefs = items.filter(r => !r.tipo.toUpperCase().includes("SUSTENTAÇÃO"));
+
+  // Group sustentações
   function groupEntries(arr) {
-    const groups = new Map();
+    const grouped = {}; // groupId -> [items]
+    const ungrouped = [];
+
     for (const r of arr) {
-      if (!groups.has(r.cnj)) {
-        groups.set(r.cnj, {
+      if (r.groupId !== null) {
+        if (!grouped[r.groupId]) grouped[r.groupId] = [];
+        grouped[r.groupId].push(r);
+      } else {
+        ungrouped.push(r);
+      }
+    }
+
+    // Ungrouped: group by CNJ (same logic as before)
+    const entries = [];
+    const ungroupedMap = new Map();
+    for (const r of ungrouped) {
+      if (!ungroupedMap.has(r.cnj)) {
+        ungroupedMap.set(r.cnj, {
           cnjDisplay: r.cnjDisplay, classe: r.classe,
           relatorDisplay: r.relatorDisplay,
           poloAtivo: r.pa, poloPassivo: r.pp,
           priority: r.priority, obs: [...r.obs],
-          lawyers: [r.lawyer]
+          lawyers: [r.lawyer], isGrouped: false, subProcesses: null,
+          originalIndex: r.originalIndex,
+          missingFields: [...(r.missingFields||[])]
         });
       } else {
-        const g = groups.get(r.cnj);
+        const g = ungroupedMap.get(r.cnj);
         g.priority = Math.min(g.priority, r.priority);
-        for (const o of r.obs) {
-          if (!g.obs.includes(o)) g.obs.push(o);
-        }
+        g.originalIndex = Math.min(g.originalIndex, r.originalIndex);
+        for (const o of r.obs) { if (!g.obs.includes(o)) g.obs.push(o); }
+        for (const m of (r.missingFields||[])) { if (!g.missingFields.includes(m)) g.missingFields.push(m); }
         g.lawyers.push(r.lawyer);
       }
     }
-    
-    for (const entry of groups.values()) {
-      entry.lawyers.sort((a, b) => (a.isActivePole ? 0 : 1) - (b.isActivePole ? 0 : 1));
+    for (const e of ungroupedMap.values()) entries.push(e);
+
+    // Grouped: collect all sub-processes and all unique lawyers
+    for (const gid of Object.keys(grouped)) {
+      const groupItems = grouped[gid];
+      const seenCnj = new Set();
+      const subProcesses = [];
+      const seenAdvogado = new Set();
+      const allLawyers = [];
+      let mainRelator = "";
+      let mainClasse = "";
+      let mainPa = "";
+      let mainPp = "";
+      let bestPriority = 4;
+      let bestOriginalIndex = Infinity;
+      const allObs = [];
+      const allMissing = [];
+
+      for (const item of groupItems) {
+        if (!mainRelator) {
+          mainRelator = item.relatorDisplay;
+          mainClasse = item.classe;
+          mainPa = item.pa;
+          mainPp = item.pp;
+        }
+        bestPriority = Math.min(bestPriority, item.priority);
+        bestOriginalIndex = Math.min(bestOriginalIndex, item.originalIndex);
+        for (const o of item.obs) { if (!allObs.includes(o)) allObs.push(o); }
+        for (const m of (item.missingFields||[])) { if (!allMissing.includes(m)) allMissing.push(m); }
+
+        if (!seenCnj.has(item.cnj)) {
+          seenCnj.add(item.cnj);
+          subProcesses.push({ cnjDisplay: item.cnjDisplay });
+        }
+
+        // Collect unique lawyers (dedup by name)
+        const advKey = item.lawyer.advogado.toUpperCase();
+        if (!seenAdvogado.has(advKey)) {
+          seenAdvogado.add(advKey);
+          allLawyers.push(item.lawyer);
+        }
+      }
+
+      entries.push({
+        cnjDisplay: subProcesses[0]?.cnjDisplay || "",
+        classe: mainClasse,
+        relatorDisplay: mainRelator,
+        poloAtivo: mainPa, poloPassivo: mainPp,
+        priority: bestPriority, obs: allObs,
+        lawyers: allLawyers,
+        isGrouped: true,
+        subProcesses,
+        originalIndex: bestOriginalIndex,
+        missingFields: allMissing
+      });
+    }
+
+    // Fix lawyer ordering within entries
+    for (const entry of entries) {
+      entry.lawyers.sort((a,b) => (a.isActivePole?0:1) - (b.isActivePole?0:1));
       if (entry.lawyers.length > 1) {
         const allActive = entry.lawyers.every(l => l.isActivePole);
         const allPassive = entry.lawyers.every(l => !l.isActivePole);
         if (allActive) {
-          for (let i = 1; i < entry.lawyers.length; i++) {
+          for (let i=1; i<entry.lawyers.length; i++) {
             entry.lawyers[i].isActivePole = false;
             entry.lawyers[i].pelaStr = buildPelaPrefix(entry.lawyers[i].representada, false, entry.classe);
           }
@@ -542,15 +489,28 @@ function processExcelData(rows) {
         }
       }
     }
-    
-    const result = [...groups.values()];
-    result.sort((a, b) => a.priority - b.priority);
-    return result;
+
+    // Sort: priority first, then group same lawyer together (by first occurrence), then original position
+    // Step 1: find earliest originalIndex per lawyer per priority
+    const lawyerFirstIdx = {};
+    for (const e of entries) {
+      const key = e.priority + "|" + (e.lawyers[0]?.advogado || "").toUpperCase();
+      if (!(key in lawyerFirstIdx) || e.originalIndex < lawyerFirstIdx[key]) {
+        lawyerFirstIdx[key] = e.originalIndex;
+      }
+    }
+    entries.sort((a,b) => {
+      if (a.priority !== b.priority) return a.priority - b.priority;
+      const keyA = a.priority + "|" + (a.lawyers[0]?.advogado || "").toUpperCase();
+      const keyB = b.priority + "|" + (b.lawyers[0]?.advogado || "").toUpperCase();
+      const firstA = lawyerFirstIdx[keyA];
+      const firstB = lawyerFirstIdx[keyB];
+      if (firstA !== firstB) return firstA - firstB;
+      return a.originalIndex - b.originalIndex;
+    });
+    return entries;
   }
-  
-  const susts = items.filter(r => r.tipo.toUpperCase().includes("SUSTENTAÇÃO"));
-  const prefs = items.filter(r => !r.tipo.toUpperCase().includes("SUSTENTAÇÃO"));
-  
+
   return {
     sustentacoes: groupEntries(susts),
     preferencias: groupEntries(prefs)
@@ -562,132 +522,242 @@ function processExcelData(rows) {
 // ============================================================
 function generateWord(data) {
   const { Document, Packer, Paragraph, TextRun, AlignmentType } = docx;
-  
-  const baseRun = { font: "Arial", size: 24, color: "000000" };
-  const grayRun = { font: "Arial", size: 24, color: "000000" };
-  const basePara = {
-    spacing: { before: 60, after: 0, line: 360 },
-    indent: { left: -20, right: -20 }
-  };
-  
-  const headerPara = (text, bold = true) => new Paragraph({
+
+  const bk = { font: "Arial", size: 24, color: "000000" };
+  const basePara = { spacing: { before: 60, after: 0, line: 360 }, indent: { left: -20, right: -20 } };
+
+  const headerP = (text, bold=true) => new Paragraph({
     ...basePara, alignment: AlignmentType.CENTER,
-    children: [new TextRun({ ...baseRun, text, bold })]
+    children: [new TextRun({ ...bk, text, bold })]
   });
   const sectionTitle = (text) => new Paragraph({
     ...basePara,
-    children: [new TextRun({ ...baseRun, text, bold: true, highlight: "yellow" })]
+    children: [new TextRun({ ...bk, text, bold: true, highlight: "yellow" })]
   });
-  const relatorPara = (num, text) => new Paragraph({
+  const relatorP = (label, text) => new Paragraph({
     ...basePara,
-    children: [new TextRun({ ...baseRun, bold: true, text: `${num}. ${text}` })]
+    children: [new TextRun({ ...bk, bold: true, text: `${label}. ${text}` })]
   });
-  const grayPara = (text) => new Paragraph({
+  const blackP = (text) => new Paragraph({
     ...basePara, alignment: AlignmentType.JUSTIFIED,
-    children: [new TextRun({ ...grayRun, text })]
+    children: [new TextRun({ ...bk, text })]
   });
-  const grayHL = (text) => new Paragraph({
+  const blackHL = (text) => new Paragraph({
     ...basePara, alignment: AlignmentType.JUSTIFIED,
-    children: [new TextRun({ ...grayRun, text, highlight: "yellow" })]
+    children: [new TextRun({ ...bk, text, highlight: "yellow" })]
   });
-  const pelaPara = (pela, name) => new Paragraph({
+  const pelaP = (pela, name) => new Paragraph({
     ...basePara, alignment: AlignmentType.JUSTIFIED,
     children: [
-      new TextRun({ ...grayRun, text: pela, bold: true }),
-      new TextRun({ ...grayRun, text: ` ${name.toUpperCase()}` })
+      new TextRun({ ...bk, text: pela, bold: true }),
+      new TextRun({ ...bk, text: ` ${name.toUpperCase()}` })
     ]
   });
-  const obsPara = (text) => new Paragraph({
+  const obsP = (text) => new Paragraph({
     ...basePara, alignment: AlignmentType.JUSTIFIED,
-    children: [new TextRun({ ...grayRun, text: `OBS: ${text}`, bold: true, highlight: "yellow" })]
+    children: [new TextRun({ ...bk, text: `OBS: ${text}`, bold: true, highlight: "yellow" })]
+  });
+  const subProcessP = (label, text) => new Paragraph({
+    ...basePara, alignment: AlignmentType.JUSTIFIED,
+    indent: { left: 360, right: -20 },
+    children: [new TextRun({ ...bk, text: `  ${label} ${text}` })]
+  });
+  const sinopseSubP = () => new Paragraph({
+    ...basePara, alignment: AlignmentType.JUSTIFIED,
+    indent: { left: 360, right: -20 },
+    children: [new TextRun({ ...bk, text: "  SINOPSE     ITEM", highlight: "yellow" })]
   });
   const sep = () => new Paragraph({
     ...basePara, alignment: AlignmentType.JUSTIFIED,
-    children: [new TextRun({ ...grayRun, text: "___________________________________________________________________" })]
+    children: [new TextRun({ ...bk, text: "___________________________________________________________________" })]
   });
   const empty = () => new Paragraph({ ...basePara, children: [] });
-  
+
   function buildEntries(entries) {
     const p = [];
     entries.forEach((e, idx) => {
-      p.push(relatorPara(idx + 1, e.relatorDisplay));
-      p.push(grayPara(e.cnjDisplay));
-      p.push(grayHL("SINOPSE     ITEM"));
-      
-      const isAgravo = (e.classe || "").toUpperCase().includes("AGRAVO");
-      p.push(grayPara(`${isAgravo ? "AGRAVANTE" : "APELANTE"}: ${e.poloAtivo}`));
-      p.push(grayPara(`${isAgravo ? "AGRAVADO" : "APELADO"}: ${e.poloPassivo}`));
-      
+      const num = idx + 1;
+
+      if (e.isGrouped && e.subProcesses && e.subProcesses.length > 1) {
+        // === GROUPED ENTRY ===
+        p.push(relatorP(num, e.relatorDisplay));
+        e.subProcesses.forEach((sp, si) => {
+          p.push(new Paragraph({
+            ...basePara, alignment: AlignmentType.JUSTIFIED,
+            children: [new TextRun({ ...bk, text: `  ${num}.${si+1} ${sp.cnjDisplay}` })]
+          }));
+          p.push(new Paragraph({
+            ...basePara, alignment: AlignmentType.JUSTIFIED,
+            children: [new TextRun({ ...bk, text: "  SINOPSE     ITEM", highlight: "yellow" })]
+          }));
+        });
+        const isAgravo = (e.classe||"").toUpperCase().includes("AGRAVO");
+        const raLabel = isAgravo?"AGRAVANTE":"APELANTE";
+        const rpLabel = isAgravo?"AGRAVADO":"APELADO";
+        if (e.poloAtivo) {
+          p.push(blackP(`${raLabel}: ${e.poloAtivo}`));
+        } else {
+          p.push(new Paragraph({ ...basePara, alignment: AlignmentType.JUSTIFIED,
+            children: [new TextRun({ font:"Arial", size:24, color:"FF0000", text:`${raLabel}: [NÃO INFORMADO]`, bold:true })] }));
+        }
+        if (e.poloPassivo) {
+          p.push(blackP(`${rpLabel}: ${e.poloPassivo}`));
+        } else {
+          p.push(new Paragraph({ ...basePara, alignment: AlignmentType.JUSTIFIED,
+            children: [new TextRun({ font:"Arial", size:24, color:"FF0000", text:`${rpLabel}: [NÃO INFORMADO]`, bold:true })] }));
+        }
+      } else {
+        // === NORMAL ENTRY ===
+        p.push(relatorP(num, e.relatorDisplay));
+        p.push(blackP(e.cnjDisplay));
+        p.push(blackHL("SINOPSE     ITEM"));
+        const isAgravo = (e.classe||"").toUpperCase().includes("AGRAVO");
+        const raLabel = isAgravo?"AGRAVANTE":"APELANTE";
+        const rpLabel = isAgravo?"AGRAVADO":"APELADO";
+        if (e.poloAtivo) {
+          p.push(blackP(`${raLabel}: ${e.poloAtivo}`));
+        } else {
+          p.push(new Paragraph({ ...basePara, alignment: AlignmentType.JUSTIFIED,
+            children: [new TextRun({ font:"Arial", size:24, color:"FF0000", text:`${raLabel}: [NÃO INFORMADO]`, bold:true })] }));
+        }
+        if (e.poloPassivo) {
+          p.push(blackP(`${rpLabel}: ${e.poloPassivo}`));
+        } else {
+          p.push(new Paragraph({ ...basePara, alignment: AlignmentType.JUSTIFIED,
+            children: [new TextRun({ font:"Arial", size:24, color:"FF0000", text:`${rpLabel}: [NÃO INFORMADO]`, bold:true })] }));
+        }
+      }
+
+      // Lawyers - indented when numbered (multi)
       const multi = e.lawyers.length > 1;
+      const lawyerPara = multi
+        ? { spacing: { before: 60, after: 0, line: 360 }, indent: { left: 480, right: -20 } }
+        : basePara;
       e.lawyers.forEach((l, li) => {
-        const prefix = multi ? `${li + 1})  ` : "";
+        const prefix = multi ? `${li+1})  ` : "";
         const oab = l.oab ? ` \u2013 ${l.oab}` : "";
         const lawyerText = `${prefix}${l.title} ${l.advogado.toUpperCase()}${oab}`;
         if (l.isPresencial) {
-          // "(PRESENCIAL)" em negrito separado
           p.push(new Paragraph({
-            ...basePara, alignment: AlignmentType.JUSTIFIED,
+            ...lawyerPara, alignment: AlignmentType.JUSTIFIED,
             children: [
-              new TextRun({ ...grayRun, text: lawyerText }),
-              new TextRun({ ...grayRun, text: " (PRESENCIAL)", bold: true })
+              new TextRun({ ...bk, text: lawyerText }),
+              new TextRun({ ...bk, text: " (PRESENCIAL)", bold: true })
             ]
           }));
         } else {
-          p.push(grayPara(lawyerText));
+          p.push(new Paragraph({
+            ...lawyerPara, alignment: AlignmentType.JUSTIFIED,
+            children: [new TextRun({ ...bk, text: lawyerText })]
+          }));
         }
-        p.push(pelaPara(l.pelaStr, l.representada));
+        if (l.poleNotFound) {
+          p.push(new Paragraph({
+            ...lawyerPara, alignment: AlignmentType.JUSTIFIED,
+            children: [new TextRun({ font:"Arial", size:24, color:"FF0000", text:`PARTE REPRESENTADA NÃO ENCONTRADA NOS POLOS: ${l.representada.toUpperCase()}`, bold:true })]
+          }));
+        } else {
+          p.push(new Paragraph({
+            ...lawyerPara, alignment: AlignmentType.JUSTIFIED,
+            children: [
+              new TextRun({ ...bk, text: l.pelaStr, bold: true }),
+              new TextRun({ ...bk, text: ` ${l.representada.toUpperCase()}` })
+            ]
+          }));
+        }
       });
-      
-      e.obs.forEach(o => p.push(obsPara(o)));
+
+      e.obs.forEach(o => { p.push(obsP(o)); });
+
       p.push(sep());
-      p.push(empty());
     });
     return p;
   }
-  
-  // Build header
+
   const turma = document.getElementById("turma").value.trim() || "TURMA";
-  const sala = document.getElementById("sala").value.trim();
-  const dataSessao = document.getElementById("dataSessao").value.trim() || "__.__.____";
-  const numSessao = document.getElementById("numSessao").value.trim();
-  
+  const dataSessao = document.getElementById("dataSessao").value.trim() || "__/__/____";
+  const presidente = document.getElementById("presidente").value.trim();
+  const desemb2 = document.getElementById("desemb2").value.trim();
+  const desemb3 = document.getElementById("desemb3").value.trim();
+  const juizAuxText = document.getElementById("juizAux").value.trim();
+  const juizAuxLines = juizAuxText ? juizAuxText.split("\n").filter(l => l.trim()) : [];
+  const prr = document.getElementById("prr").value.trim();
+
   const children = [];
-  children.push(headerPara(`ÓRGÃO JULGADOR: ${turma.toUpperCase()}`));
-  
-  let sessionLine = numSessao ? `${numSessao} SESSÃO DE JULGAMENTO` : "SESSÃO DE JULGAMENTO";
-  if (sala) sessionLine += ` PRESENCIAL`;
-  sessionLine += " DO ";
-  
-  const sessionChildren = [new TextRun({ ...baseRun, text: sessionLine })];
-  sessionChildren.push(new TextRun({ ...baseRun, text: `DIA ${dataSessao}`, bold: true }));
-  if (sala) {
-    sessionChildren.push(new TextRun({ ...baseRun, text: " - " }));
-    sessionChildren.push(new TextRun({ ...baseRun, text: sala.toUpperCase(), bold: true }));
-  }
-  children.push(new Paragraph({ ...basePara, alignment: AlignmentType.CENTER, children: sessionChildren }));
+  children.push(headerP(`ÓRGÃO JULGADOR: ${turma.toUpperCase()}`));
+
+  children.push(new Paragraph({
+    ...basePara, alignment: AlignmentType.CENTER,
+    children: [
+      new TextRun({ ...bk, text: "SESSÃO DE JULGAMENTO DO " }),
+      new TextRun({ ...bk, text: `DIA ${dataSessao}`, bold: true })
+    ]
+  }));
   children.push(empty());
-  
+
   children.push(sectionTitle("I\u2013 PEDIDOS DE SUSTENTAÇÃO ORAL"));
   children.push(...buildEntries(data.sustentacoes));
-  
+
   if (data.preferencias.length > 0) {
     children.push(sectionTitle("II\u2013 PEDIDOS DE PREFERÊNCIA SEM SUSTENTAÇÃO ORAL"));
     children.push(...buildEntries(data.preferencias));
   }
-  
-  const doc = new Document({
+
+  // PARTICIPANTES DA SESSÃO
+  children.push(sep());
+  children.push(empty());
+  children.push(new Paragraph({
+    ...basePara,
+    children: [new TextRun({ ...bk, text: "PARTICIPANTES DA SESSÃO", bold: true })]
+  }));
+  if (presidente) {
+    children.push(blackP(`Exmo. Sr. Desembargador Federal ${toTitleCase(presidente)} - Presidente`));
+  }
+  if (desemb2) {
+    children.push(blackP(`Exmo. Sr. Desembargador Federal ${toTitleCase(desemb2)}`));
+  }
+  if (desemb3) {
+    children.push(blackP(`Exmo. Sr. Desembargador Federal ${toTitleCase(desemb3)}`));
+  }
+  if (juizAuxLines.length > 0) {
+    for (const jl of juizAuxLines) {
+      children.push(blackP(`Exmo. Sr. Juiz Federal ${toTitleCase(jl.trim())}`));
+    }
+  }
+  if (prr) {
+    children.push(blackP(`PRR: Dr. ${toTitleCase(prr)}`));
+  }
+  children.push(blackP("Secretário: Higo Soares Barboza"));
+
+  return Packer.toBlob(new Document({
     sections: [{
-      properties: {
-        page: {
-          size: { width: 11906, height: 16838 },
-          margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 }
-        }
-      },
+      properties: { page: { size: {width:11906,height:16838}, margin: {top:1440,right:1440,bottom:1440,left:1440} } },
       children
     }]
-  });
-  
-  return Packer.toBlob(doc);
+  }));
+}
+
+// ============================================================
+//  UTILITIES: DATE MASK + TITLE CASE
+// ============================================================
+// Auto-insert slashes in date field (dd/mm/aaaa)
+document.getElementById("dataSessao").addEventListener("input", function(e) {
+  let v = this.value.replace(/\D/g, "");
+  if (v.length > 8) v = v.substring(0, 8);
+  if (v.length > 4) v = v.substring(0,2) + "/" + v.substring(2,4) + "/" + v.substring(4);
+  else if (v.length > 2) v = v.substring(0,2) + "/" + v.substring(2);
+  this.value = v;
+});
+
+// Title Case: "ROBERTO CARVALHO VELOSO" → "Roberto Carvalho Veloso"
+// Preserves small words like "de", "da", "do", "dos", "das", "e"
+function toTitleCase(str) {
+  if (!str) return "";
+  const small = new Set(["de","da","do","dos","das","e","em","no","na","nos","nas"]);
+  return str.toLowerCase().split(/\s+/).map((w, i) => {
+    if (i > 0 && small.has(w)) return w;
+    return w.charAt(0).toUpperCase() + w.slice(1);
+  }).join(" ");
 }
 
 // ============================================================
@@ -700,115 +770,94 @@ const btnGenerate = document.getElementById("btnGenerate");
 const statusEl = document.getElementById("status");
 const previewEl = document.getElementById("preview");
 
+let rawRows = null;
+
 dropZone.addEventListener("click", () => fileInput.click());
 dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("dragover"); });
 dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
 dropZone.addEventListener("drop", (e) => {
-  e.preventDefault();
-  dropZone.classList.remove("dragover");
+  e.preventDefault(); dropZone.classList.remove("dragover");
   if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
 });
-fileInput.addEventListener("change", (e) => {
-  if (e.target.files.length) handleFile(e.target.files[0]);
-});
+fileInput.addEventListener("change", (e) => { if (e.target.files.length) handleFile(e.target.files[0]); });
 
 async function handleFile(file) {
-  if (!file.name.match(/\.xlsx?$/i)) {
-    showStatus("Selecione um arquivo .xlsx válido.", "error");
-    return;
-  }
-  
+  if (!file.name.match(/\.xlsx?$/i)) { showStatus("Selecione um arquivo .xlsx válido.","error"); return; }
   fileNameEl.textContent = file.name;
   dropZone.classList.add("loaded");
-  showStatus("Processando planilha...", "info");
-  
+  showStatus("Processando planilha...","info");
   try {
     const buffer = await file.arrayBuffer();
-    const rows = await parseXlsx(buffer);
-    processedData = processExcelData(rows);
-    
+    rawRows = await parseXlsx(buffer);
+    processedData = processExcelData(rawRows);
     const total = processedData.sustentacoes.length + processedData.preferencias.length;
-    showStatus(`✓ ${processedData.sustentacoes.length} sustentações orais e ${processedData.preferencias.length} pedido(s) de preferência encontrados.`, "success");
-    
-    // Show preview
+    const grouped = processedData.sustentacoes.filter(e => e.isGrouped).length;
+    let msg = `✓ ${processedData.sustentacoes.length} sustentações orais e ${processedData.preferencias.length} pedido(s) de preferência.`;
+    if (grouped > 0) msg += ` (${grouped} grupo(s) agrupado(s))`;
+    showStatus(msg, "success");
     showPreview(processedData);
-    
     btnGenerate.disabled = false;
-    
-    // Auto-detect date from data
     if (!document.getElementById("dataSessao").value) {
-      for (const r of rows.slice(1)) {
+      for (const r of rawRows.slice(1)) {
         if (r.E && typeof r.E === "string" && r.E.includes("/")) {
           const parts = r.E.split("/");
-          if (parts.length === 3) {
-            document.getElementById("dataSessao").value = `${parts[0]}.${parts[1]}.${parts[2]}`;
-            break;
-          }
+          if (parts.length===3) { document.getElementById("dataSessao").value=`${parts[0]}/${parts[1]}/${parts[2]}`; break; }
         }
       }
     }
-  } catch (err) {
-    showStatus("Erro ao processar planilha: " + err.message, "error");
-    console.error(err);
-  }
+  } catch(err) { showStatus("Erro ao processar: "+err.message,"error"); console.error(err); }
 }
 
+// Re-process when grouping text changes
+document.getElementById("agrupamento").addEventListener("input", () => {
+  if (rawRows) {
+    processedData = processExcelData(rawRows);
+    showPreview(processedData);
+    const grouped = processedData.sustentacoes.filter(e => e.isGrouped).length;
+    let msg = `✓ ${processedData.sustentacoes.length} sustentações, ${processedData.preferencias.length} preferência(s).`;
+    if (grouped > 0) msg += ` (${grouped} grupo(s))`;
+    showStatus(msg, "success");
+  }
+});
+
 function showPreview(data) {
-  const prioLabels = {0:"VISTA", 1:"PREF.LEGAL", 2:"PRESENCIAL", 4:"VÍDEO"};
-  let html = '<table><tr><th>#</th><th>Prior.</th><th>Processo</th><th>Relator</th><th>Advogado(s)</th></tr>';
-  
-  data.sustentacoes.forEach((e, i) => {
-    const advs = e.lawyers.map(l => l.advogado).join(", ");
-    const cls = e.priority <= 1 ? `prio-${e.priority}` : (e.priority === 2 ? "prio-2" : "");
-    html += `<tr class="${cls}"><td>${i+1}</td><td>${prioLabels[e.priority]}</td><td>${e.cnjDisplay.substring(0,35)}</td><td>${e.relatorDisplay.substring(20,50)}...</td><td>${advs.substring(0,40)}</td></tr>`;
+  const prioLabels = {0:"VISTA",1:"PREF.LEGAL",2:"PRESENCIAL",4:"VÍDEO"};
+  let html = '<table><tr><th>#</th><th>Prior.</th><th>Tipo</th><th>Processo</th><th>Advogado(s)</th></tr>';
+  data.sustentacoes.forEach((e,i) => {
+    const advs = e.lawyers.map(l=>l.advogado).join(", ");
+    const cls = e.priority<=1?`prio-${e.priority}`:(e.priority===2?"prio-2":"");
+    const tipo = e.isGrouped ? `GRUPO (${e.subProcesses.length})` : "—";
+    const proc = e.isGrouped ? e.subProcesses.map(s=>s.cnjDisplay.substring(0,30)).join("; ") : e.cnjDisplay.substring(0,35);
+    html += `<tr class="${cls}"><td>${i+1}</td><td>${prioLabels[e.priority]||"VIDEO"}</td><td>${tipo}</td><td title="${proc}">${proc.substring(0,50)}</td><td>${advs.substring(0,40)}</td></tr>`;
   });
-  
   if (data.preferencias.length) {
     html += '<tr><td colspan="5" style="background:#fff3e0;font-weight:bold">PREFERÊNCIAS SEM SUSTENTAÇÃO</td></tr>';
-    data.preferencias.forEach((e, i) => {
-      const advs = e.lawyers.map(l => l.advogado).join(", ");
-      html += `<tr><td>${i+1}</td><td>PREF</td><td>${e.cnjDisplay.substring(0,35)}</td><td>${e.relatorDisplay.substring(20,50)}...</td><td>${advs.substring(0,40)}</td></tr>`;
+    data.preferencias.forEach((e,i) => {
+      const advs = e.lawyers.map(l=>l.advogado).join(", ");
+      html += `<tr><td>${i+1}</td><td>PREF</td><td>—</td><td>${e.cnjDisplay.substring(0,35)}</td><td>${advs.substring(0,40)}</td></tr>`;
     });
   }
-  
   html += '</table>';
   previewEl.innerHTML = html;
   previewEl.style.display = "block";
 }
 
-function showStatus(msg, type) {
-  statusEl.textContent = msg;
-  statusEl.className = "status " + type;
-}
+function showStatus(msg, type) { statusEl.textContent = msg; statusEl.className = "status " + type; }
 
 btnGenerate.addEventListener("click", async () => {
   if (!processedData) return;
-  
   btnGenerate.disabled = true;
-  showStatus("Gerando documento Word...", "info");
-  
+  showStatus("Gerando documento Word...","info");
   try {
     const blob = await generateWord(processedData);
-    
-    // Build filename
-    const data = document.getElementById("dataSessao").value.replace(/\./g, "_") || "preview";
-    const filename = `${data}_-_PRÉVIA_DA_LISTA_DE_SUSTENTAÇÕES_ORAIS.docx`;
-    
-    // Download
+    const dt = document.getElementById("dataSessao").value.replace(/\//g,"_") || "preview";
+    const filename = `${dt}_-_PRÉVIA_DA_LISTA_DE_SUSTENTAÇÕES_ORAIS.docx`;
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    a.click();
+    const a = document.createElement("a"); a.href=url; a.download=filename; a.click();
     URL.revokeObjectURL(url);
-    
-    showStatus(`✓ Documento "${filename}" gerado com sucesso!`, "success");
-  } catch (err) {
-    showStatus("Erro ao gerar documento: " + err.message, "error");
-    console.error(err);
-  } finally {
-    btnGenerate.disabled = false;
-  }
+    showStatus(`✓ Documento "${filename}" gerado com sucesso!`,"success");
+  } catch(err) { showStatus("Erro ao gerar: "+err.message,"error"); console.error(err); }
+  finally { btnGenerate.disabled = false; }
 });
 </script>
 </body>
