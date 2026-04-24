@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prévia de Sustentações Orais — v1.1</title>
+<title>Prévia de Sustentações Orais — v1.3</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -92,7 +92,7 @@
 <body>
 
 <div class="header">
-  <h1>PRÉVIA DE SUSTENTAÇÕES ORAIS - VERSÃO 1.1</h1>
+  <h1>PRÉVIA DE SUSTENTAÇÕES ORAIS - VERSÃO 1.3</h1>
   <p>Gerador automático de lista — TRF1</p>
 </div>
 
@@ -218,9 +218,9 @@ const CLASS_ABBREV = {
 };
 const MASC_ENTITIES = ["CONSELHO","DEPARTAMENTO","INSTITUTO","BANCO","MUNICÍPIO","MUNICIPIO","MINISTÉRIO","MINISTERIO","ESTADO","IBAMA","BNDES","DELEGADO","POSTO","CONDOMÍNIO","CONDOMINIO","DNPM","MPF"];
 const FEM_ENTITIES = ["UNIÃO","UNIAO","AGÊNCIA","AGENCIA","UNIVERSIDADE","FUNDAÇÃO","FUNDACAO","CIA","EMPRESA"];
-const MASC_NAMES = new Set(["EDIVALDO","GILMAR","OSMIR","EXPEDITO","JALDIR","CELSO","JULIO","SILVIO","MISAEL","GUSTAVO","OTAVIO","FELIPE","DIEGO","EDUARDO","LUIZ","DANILO","ARTHUR","JOAO","RICARDO","MARCO","MARCOS","MAGNO","PEDRO","RAFAEL","RODRIGO","JOSE","IVAN","GREGORIO","ANDRE","CARLOS","JOAQUIM","LEVY","REGINALDO","ORLY","HUMBERTO","DYOGO","RENATO","LEONARDO"]);
+const MASC_NAMES = new Set(["EDIVALDO","GILMAR","OSMIR","EXPEDITO","JALDIR","CELSO","JULIO","SILVIO","MISAEL","GUSTAVO","OTAVIO","FELIPE","DIEGO","EDUARDO","LUIZ","DANILO","ARTHUR","JOAO","RICARDO","MARCO","MARCOS","MAGNO","PEDRO","RAFAEL","RODRIGO","JOSE","IVAN","GREGORIO","ANDRE","CARLOS","JOAQUIM","LEVY","REGINALDO","ORLY","HUMBERTO","DYOGO","RENATO","LEONARDO","DOUGLAS","DANIEL","BRUNO","MARCIO","EWERTON","LUCAS","ADRIANO","ALESSANDRO","GEORGES","AUGUSTO","BARTOLOMEU","ADNALDO","LUIS","JORGE","DANTE","VICENTE","GUILHERME","HENRIQUE","CLEMENTE","ROQUE","ESDRA","ALEXANDRE","ALBERTO","ALFREDO","ALMIR","ALVARO","AMARILDO","ANDERSON","ANTONIO","ARNALDO","ARTUR","BENEDITO","BERNARDO","CAIO","CASSIO","CLAUDIO","CLODOMIR","CRISTIANO","DAVI","DAVID","DIMAS","DIOGO","DOMINGOS","EDGAR","EDSON","ELISEU","EMERSON","ENRIQUE","ERASMO","ERNESTO","ESTEVAO","EVANDRO","EVERTON","FABIO","FABRICIO","FERNANDO","FLAVIO","FRANCISCO","FREDERICO","GABRIEL","GERALDO","GERSON","GIOVANI","HELIO","HUGO","ITALO","JAIME","JEFFERSON","JONAS","JONATHAN","JULIANO","LEANDRO","LUCIANO","LUCIO","MANOEL","MANUEL","MARCELO","MARIO","MATEUS","MATHEUS","MAURO","MAXWELL","MICHEL","MIGUEL","MILTON","MOISES","MURILO","NELSON","NILSON","NILTON","NORBERTO","OCTAVIO","ORLANDO","OSCAR","OSVALDO","OTAVIANO","PAULO","PLINIO","RAIMUNDO","RAMON","RAUL","RENZO","ROBERTO","ROGERIO","ROMULO","RONALDO","RUBENS","RUI","SAMUEL","SANDRO","SERGIO","SEVERINO","SIDENEY","SIDNEY","TARCISIO","TIAGO","THIAGO","TOMAZ","UBIRATAN","ULISSES","VAGNER","VALDIR","VITOR","WAGNER","WALDIR","WALTER","WASHINGTON","WELLINGTON","WENDEL","WILLIAM","WILSON","YURI"]);
 const FEM_NAMES = new Set(["SOPHIA","ANA","MARIA","RENATA","PAULA","CAMILA","VIDA","EDELZUITA","AMANDA","PATRICIA","TAYANE","NATHALIA","POLLYANNA"]);
-const FEM_ADV_NAMES = new Set(["SOPHIA","ANA","MARIA","RENATA","PAULA","CAMILA","VIDA","EDELZUITA","AMANDA","PATRICIA","NATHALIA","POLLYANNA"]);
+const FEM_ADV_NAMES = new Set(["SOPHIA","ANA","MARIA","RENATA","PAULA","CAMILA","VIDA","EDELZUITA","AMANDA","PATRICIA","NATHALIA","POLLYANNA","ARIANE","ANGELA","LUCIANA","DANUBIA","LAIS","GISELLE","KASSIA","CAROLINA","MARIANA","BRUNA","SOLANGE","RAQUEL","JULIANA","ALESSA","BARBARA","THAMI","JESSICA","GABRIELA","FERNANDA","BEATRIZ","LARISSA","LETICIA","ISABELA","ISABELLA","DANIELA","VANESSA","TATIANA","VIVIANE","VIVIAN","ADRIANA","ALESSANDRA","ALINE","ANDREIA","ANDRESSA","BIANCA","CATARINA","CECILIA","CLARA","CRISTIANE","CRISTINA","DEBORA","DIANA","ELAINE","ELIANE","ERICA","FABIANA","FLAVIA","FRANCISCA","GEOVANA","GIOVANNA","GIOVANA","HELENA","INGRID","IRIS","IVANA","IVONE","JANAINA","JOANA","JULIA","JULIANE","KAREN","KARINA","KATIA","LAURA","LIANA","LIDIA","LILIANE","LORENA","LUANA","LUCIA","LUISA","LUIZA","MADALENA","MARCELA","MARCELLA","MARCIA","MARINA","MARTA","MIRIAM","MONICA","NATALIA","NICOLE","NINA","PRISCILA","PRISCILLA","RAFAELA","RAISSA","REBECA","REGINA","ROBERTA","ROSA","ROSANA","SABRINA","SANDRA","SARA","SARAH","SILVANA","SIMONE","SONIA","SUZANA","TATIANE","TEREZA","TERESA","THAIS","VALERIA","VANUSA","VERA","VIRGINIA","VITORIA","ZELIA","DENISE","ELISA","ELIZABETE","ELIZABETH","EMANUELA","ESTELA","EUGENIA","FABIANE","FATIMA","GLAUCIA","GLORIA","GRAZIELA","IARA","ILMA","IRENE","IVETE","JAQUELINE","JOSEFA","JOYCE","KARLA","LARA","LEILA","LELIA","LIGIA","LILIAN","LILIANA","LISA","LIVIA","LUCIARA","LUCIENE","LUCIMAR","MARA","MARGARETE","MARGARIDA","MARLENE","MILENA","MIRELLA","NADIA","NAIRA","NEUSA","NOEMIA","OLGA","PALOMA","PAMELA","PIETRA","POLIANA","RACHEL","RAIMUNDA","RITA","ROSANGELA","ROSELI","ROSILENE","SAMARA","SAMIRA","SELMA","SHEILA","SILVIA","SOCORRO","SOLEDAD","SUELENA","SUELI","SUELY","SUELLEN","TAIS","TANIA","TATIANI","THALITA","VALDIRENE","VANIA","VILMA","WANDA","YASMIM","YASMIN","ZILDA","ALICE","ALICIA","BETINA","CELIA","CINTHIA","CINTIA","CLAUDIA","CONCEICAO","DAIANE","DANIELE","EDNA","ELZA","EMILIA","EVA","GILDA","INES","IVONETE","LIDIANE","LILIAM","LOURDES","MANOELA","MARGARETH","MAYARA","MAYRA","MICHELE","NARA","NELMA","NEUZA","ROSEMARY","RUTH","SUZANE","TAINA","THAISA","THAYSA","VALDETE","ZULEICA"]);
 
 function stripAccents(s) { return s.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); }
 
@@ -251,7 +251,15 @@ function isPartyFeminine(name) {
   if (FEM_NAMES.has(first)) return true;
   return true;
 }
-function getAdvTitle(name) { return FEM_ADV_NAMES.has(stripAccents((name.split(/\s+/)[0]||"").toUpperCase())) ? "DRA." : "DR."; }
+function getAdvTitle(name) {
+  const first = stripAccents((name.split(/\s+/)[0]||"").toUpperCase());
+  if (!first) return { title: "DR.", unknown: true };
+  if (MASC_NAMES.has(first)) return { title: "DR.", unknown: false };
+  if (FEM_ADV_NAMES.has(first)) return { title: "DRA.", unknown: false };
+  // Heurística: nomes terminados em A ou E (exceto exceções comuns masculinas)
+  if (/[AE]$/.test(first) && !["JORGE","ANDRE","DANTE","VICENTE","ESDRA"].includes(first)) return { title: "DRA.", unknown: false };
+  return { title: "DR.", unknown: true };
+}
 function buildPelaPrefix(partyName, isActive, classType) {
   const fem = isPartyFeminine(partyName), plural = hasPluralMarker(partyName);
   const agr = classType.toUpperCase().includes("AGRAVO");
@@ -303,23 +311,56 @@ let processedData = null;
 
 function processExcelData(rows) {
   const cnjToGroup = parseGroups();
-  const dataRows = rows.slice(1).filter(r => r.D);
+
+  // === MAPEAMENTO DINÂMICO DE COLUNAS ===
+  // Lê a linha de cabeçalho e encontra cada campo pelo título, não pela letra
+  const headerRow = rows[0] || {};
+  const colMap = {}; // campo semântico → letra da coluna
+  const fieldPatterns = {
+    classe:       /classe\s*judicial/i,
+    sigiloso:     /sigiloso/i,
+    obs:          /observa[çc][ãa]o/i,
+    cnj:          /n[º°]\s*processo|processo.*cnj/i,
+    dataSessao:   /data\s*sess[ãa]o/i,
+    relator:      /relator/i,
+    tipo:         /prefer[eê]ncia.*oral|sust.*oral/i,
+    modalidade:   /modalidade/i,
+    advogado:     /advogado/i,
+    oab:          /oab/i,
+    representada: /parte\s*representada/i,
+    poloAtivo:    /polo\s*ativo|1[º°]\s*polo\s*ativo/i,
+    poloPassivo:  /polo\s*passivo|1[º°]\s*polo\s*passivo/i
+  };
+  for (const colLetter of Object.keys(headerRow)) {
+    const headerVal = (headerRow[colLetter] || "").toString().trim();
+    if (!headerVal) continue;
+    for (const [field, pattern] of Object.entries(fieldPatterns)) {
+      if (!colMap[field] && pattern.test(headerVal)) {
+        colMap[field] = colLetter;
+      }
+    }
+  }
+  // Helper: lê campo semântico de uma row
+  const getField = (r, field) => (r[colMap[field]] || "").toString().trim();
+
+  const dataRows = rows.slice(1).filter(r => colMap.cnj && r[colMap.cnj]);
 
   // Parse all items
   const items = [];
   let itemIdx = 0;
   for (const r of dataRows) {
-    const cnj = (r.D||"").trim();
-    const classe = (r.A||"").trim();
-    let relator = (r.F||"").trim();
-    const tipo = (r.G||"").trim();
-    const modalidade = (r.H||"").trim();
-    const advogado = (r.J||"").trim();
-    const oab = normalizeOab((r.K||"").trim());
-    const representada = (r.O||"").trim();
-    const pa = (r.P||"").trim();
-    const pp = (r.Q||"").trim();
-    const obsC = (r.C||"").trim();
+    const cnj = getField(r, "cnj");
+    const classe = getField(r, "classe");
+    let relator = getField(r, "relator");
+    const tipo = getField(r, "tipo");
+    const modalidade = getField(r, "modalidade");
+    const advogado = getField(r, "advogado");
+    const oab = normalizeOab(getField(r, "oab"));
+    const representada = getField(r, "representada");
+    const pa = getField(r, "poloAtivo");
+    const pp = getField(r, "poloPassivo");
+    const obsC = getField(r, "obs");
+    const sigiloso = getField(r, "sigiloso").toUpperCase() === "SIM";
 
     // Skip processes marked as EXCLUIR
     if (obsC.toUpperCase().includes("EXCLUIR")) { itemIdx++; continue; }
@@ -327,25 +368,27 @@ function processExcelData(rows) {
     const uf = getUf(cnj);
     const abbrev = CLASS_ABBREV[classe] || classe;
 
-    let pedidoVista = false;
-    if (relator.toUpperCase().includes("PEDIDO DE VISTA")) {
-      relator = relator.replace(/\s*-\s*PEDIDO DE VISTA/i,"").trim();
-      pedidoVista = true;
-    }
     let relDisplay = relator;
-    if (!relDisplay.toUpperCase().startsWith("EXMO")) relDisplay = "EXMO. SR. " + relDisplay;
+    if (!relDisplay.toUpperCase().startsWith("EXMO") && !relDisplay.toUpperCase().startsWith("EXMA")) {
+      const relUpper = relDisplay.toUpperCase();
+      const isFemRel = /JU[ÍI]ZA|DESEMBARGADORA/.test(relUpper);
+      relDisplay = (isFemRel ? "EXMA. SRA. " : "EXMO. SR. ") + relDisplay;
+    }
 
     const isPresencial = modalidade.toUpperCase().includes("PRESENCIAL");
 
     const obs = [];
     let priority = 4;
-    if (pedidoVista) { obs.push("PEDIDO DE VISTA."); priority = 0; }
     if (obsC && !["","NONE","DUAS SUSTS"].includes(obsC.toUpperCase())) {
-      if (obsC.toUpperCase().includes("IDOSO")) { obs.push("IDOSO."); if (priority>1) priority=1; }
-      else if (obsC.toUpperCase().includes("GESTANTE")) { obs.push("GESTANTE."); if (priority>1) priority=1; }
-      else if (obsC.toUpperCase().includes("LACTANTE")) { obs.push("LACTANTE."); if (priority>1) priority=1; }
-      else if (obsC.toUpperCase().includes("COMPROMISSO")) { obs.push(`ADVOGADO(A) INFORMA: ${obsC.toUpperCase()}.`); }
-      else { obs.push(obsC.toUpperCase()); }
+      const obsUpper = obsC.toUpperCase();
+      if (obsUpper.includes("PEDIDO DE VISTA")) {
+        obs.push(obsUpper.endsWith(".") ? obsUpper : obsUpper + ".");
+        priority = 0;
+      } else if (obsUpper.includes("IDOSO")) { obs.push("IDOSO."); if (priority>1) priority=1; }
+      else if (obsUpper.includes("GESTANTE")) { obs.push("GESTANTE."); if (priority>1) priority=1; }
+      else if (obsUpper.includes("LACTANTE")) { obs.push("LACTANTE."); if (priority>1) priority=1; }
+      else if (obsUpper.includes("COMPROMISSO")) { obs.push(`ADVOGADO(A) INFORMA: ${obsUpper}.`); }
+      else { obs.push(obsUpper); }
     }
     if (priority > 2 && isPresencial) priority = 2;
 
@@ -360,14 +403,16 @@ function processExcelData(rows) {
     const isActive = poleResult === "active";
     const poleNotFound = poleResult === "none";
 
+      const advTitleResult = getAdvTitle(advogado);
     items.push({
-      cnj, cnjDisplay: `${abbrev} ${cnj}${uf}`, classe, tipo,
+      cnj, cnjDisplay: `${abbrev} ${cnj}${uf}`, classe, tipo, sigiloso,
       relatorDisplay: relDisplay.toUpperCase(),
-      pa, pp, priority, obs, isPresencial, missingFields,
+      pa, pp, polosDuplicados: (pa && pp && pa.toUpperCase() === pp.toUpperCase()),
+      priority, obs, isPresencial, missingFields,
       groupId: cnjToGroup[cnj] !== undefined ? cnjToGroup[cnj] : null,
       originalIndex: itemIdx++,
       lawyer: {
-        title: getAdvTitle(advogado), advogado, oab, isPresencial,
+        title: advTitleResult.title, titleUnknown: advTitleResult.unknown, advogado, oab, isPresencial,
         representada, pelaStr: poleNotFound ? "" : buildPelaPrefix(representada, isActive, classe),
         isActivePole: isActive, poleNotFound
       }
@@ -398,9 +443,9 @@ function processExcelData(rows) {
     for (const r of ungrouped) {
       if (!ungroupedMap.has(r.cnj)) {
         ungroupedMap.set(r.cnj, {
-          cnjDisplay: r.cnjDisplay, classe: r.classe,
+          cnjDisplay: r.cnjDisplay, classe: r.classe, sigiloso: r.sigiloso,
           relatorDisplay: r.relatorDisplay,
-          poloAtivo: r.pa, poloPassivo: r.pp,
+          poloAtivo: r.pa, poloPassivo: r.pp, polosDuplicados: r.polosDuplicados,
           priority: r.priority, obs: [...r.obs],
           lawyers: [r.lawyer], isGrouped: false, subProcesses: null,
           originalIndex: r.originalIndex,
@@ -447,7 +492,7 @@ function processExcelData(rows) {
 
         if (!seenCnj.has(item.cnj)) {
           seenCnj.add(item.cnj);
-          subProcesses.push({ cnjDisplay: item.cnjDisplay });
+          subProcesses.push({ cnjDisplay: item.cnjDisplay, sigiloso: item.sigiloso });
         }
 
         // Collect unique lawyers (dedup by name)
@@ -463,6 +508,7 @@ function processExcelData(rows) {
         classe: mainClasse,
         relatorDisplay: mainRelator,
         poloAtivo: mainPa, poloPassivo: mainPp,
+        polosDuplicados: (mainPa && mainPp && mainPa.toUpperCase() === mainPp.toUpperCase()),
         priority: bestPriority, obs: allObs,
         lawyers: allLawyers,
         isGrouped: true,
@@ -513,7 +559,8 @@ function processExcelData(rows) {
 
   return {
     sustentacoes: groupEntries(susts),
-    preferencias: groupEntries(prefs)
+    preferencias: groupEntries(prefs),
+    colMap
   };
 }
 
@@ -582,9 +629,13 @@ function generateWord(data) {
         // === GROUPED ENTRY ===
         p.push(relatorP(num, e.relatorDisplay));
         e.subProcesses.forEach((sp, si) => {
+          const spRuns = [new TextRun({ ...bk, text: `  ${num}.${si+1} ${sp.cnjDisplay}` })];
+          if (sp.sigiloso) {
+            spRuns.push(new TextRun({ ...bk, text: " SIGILOSO", bold: true }));
+          }
           p.push(new Paragraph({
             ...basePara, alignment: AlignmentType.JUSTIFIED,
-            children: [new TextRun({ ...bk, text: `  ${num}.${si+1} ${sp.cnjDisplay}` })]
+            children: spRuns
           }));
           p.push(new Paragraph({
             ...basePara, alignment: AlignmentType.JUSTIFIED,
@@ -594,14 +645,17 @@ function generateWord(data) {
         const isAgravo = (e.classe||"").toUpperCase().includes("AGRAVO");
         const raLabel = isAgravo?"AGRAVANTE":"APELANTE";
         const rpLabel = isAgravo?"AGRAVADO":"APELADO";
+        const poloColor = e.polosDuplicados ? "FF0000" : "000000";
         if (e.poloAtivo) {
-          p.push(blackP(`${raLabel}: ${e.poloAtivo}`));
+          p.push(new Paragraph({ ...basePara, alignment: AlignmentType.JUSTIFIED,
+            children: [new TextRun({ font:"Arial", size:24, color:poloColor, text:`${raLabel}: ${e.poloAtivo}` })] }));
         } else {
           p.push(new Paragraph({ ...basePara, alignment: AlignmentType.JUSTIFIED,
             children: [new TextRun({ font:"Arial", size:24, color:"FF0000", text:`${raLabel}: [NÃO INFORMADO]`, bold:true })] }));
         }
         if (e.poloPassivo) {
-          p.push(blackP(`${rpLabel}: ${e.poloPassivo}`));
+          p.push(new Paragraph({ ...basePara, alignment: AlignmentType.JUSTIFIED,
+            children: [new TextRun({ font:"Arial", size:24, color:poloColor, text:`${rpLabel}: ${e.poloPassivo}` })] }));
         } else {
           p.push(new Paragraph({ ...basePara, alignment: AlignmentType.JUSTIFIED,
             children: [new TextRun({ font:"Arial", size:24, color:"FF0000", text:`${rpLabel}: [NÃO INFORMADO]`, bold:true })] }));
@@ -609,19 +663,32 @@ function generateWord(data) {
       } else {
         // === NORMAL ENTRY ===
         p.push(relatorP(num, e.relatorDisplay));
-        p.push(blackP(e.cnjDisplay));
+        if (e.sigiloso) {
+          p.push(new Paragraph({
+            ...basePara, alignment: AlignmentType.JUSTIFIED,
+            children: [
+              new TextRun({ ...bk, text: e.cnjDisplay }),
+              new TextRun({ ...bk, text: " SIGILOSO", bold: true })
+            ]
+          }));
+        } else {
+          p.push(blackP(e.cnjDisplay));
+        }
         p.push(blackHL("SINOPSE     ITEM"));
         const isAgravo = (e.classe||"").toUpperCase().includes("AGRAVO");
         const raLabel = isAgravo?"AGRAVANTE":"APELANTE";
         const rpLabel = isAgravo?"AGRAVADO":"APELADO";
+        const poloColor = e.polosDuplicados ? "FF0000" : "000000";
         if (e.poloAtivo) {
-          p.push(blackP(`${raLabel}: ${e.poloAtivo}`));
+          p.push(new Paragraph({ ...basePara, alignment: AlignmentType.JUSTIFIED,
+            children: [new TextRun({ font:"Arial", size:24, color:poloColor, text:`${raLabel}: ${e.poloAtivo}` })] }));
         } else {
           p.push(new Paragraph({ ...basePara, alignment: AlignmentType.JUSTIFIED,
             children: [new TextRun({ font:"Arial", size:24, color:"FF0000", text:`${raLabel}: [NÃO INFORMADO]`, bold:true })] }));
         }
         if (e.poloPassivo) {
-          p.push(blackP(`${rpLabel}: ${e.poloPassivo}`));
+          p.push(new Paragraph({ ...basePara, alignment: AlignmentType.JUSTIFIED,
+            children: [new TextRun({ font:"Arial", size:24, color:poloColor, text:`${rpLabel}: ${e.poloPassivo}` })] }));
         } else {
           p.push(new Paragraph({ ...basePara, alignment: AlignmentType.JUSTIFIED,
             children: [new TextRun({ font:"Arial", size:24, color:"FF0000", text:`${rpLabel}: [NÃO INFORMADO]`, bold:true })] }));
@@ -636,21 +703,17 @@ function generateWord(data) {
       e.lawyers.forEach((l, li) => {
         const prefix = multi ? `${li+1})  ` : "";
         const oab = l.oab ? ` \u2013 ${l.oab}` : "";
-        const lawyerText = `${prefix}${l.title} ${l.advogado.toUpperCase()}${oab}`;
+        const titleColor = l.titleUnknown ? "FF0000" : "000000";
+        const titleRun = new TextRun({ font: "Arial", size: 24, color: titleColor, text: `${prefix}${l.title}` });
+        const nameRun = new TextRun({ ...bk, text: ` ${l.advogado.toUpperCase()}${oab}` });
+        const runs = [titleRun, nameRun];
         if (l.isPresencial) {
-          p.push(new Paragraph({
-            ...lawyerPara, alignment: AlignmentType.JUSTIFIED,
-            children: [
-              new TextRun({ ...bk, text: lawyerText }),
-              new TextRun({ ...bk, text: " (PRESENCIAL)", bold: true })
-            ]
-          }));
-        } else {
-          p.push(new Paragraph({
-            ...lawyerPara, alignment: AlignmentType.JUSTIFIED,
-            children: [new TextRun({ ...bk, text: lawyerText })]
-          }));
+          runs.push(new TextRun({ ...bk, text: " (PRESENCIAL)", bold: true }));
         }
+        p.push(new Paragraph({
+          ...lawyerPara, alignment: AlignmentType.JUSTIFIED,
+          children: runs
+        }));
         if (l.poleNotFound) {
           p.push(new Paragraph({
             ...lawyerPara, alignment: AlignmentType.JUSTIFIED,
@@ -711,21 +774,26 @@ function generateWord(data) {
     children: [new TextRun({ ...bk, text: "PARTICIPANTES DA SESSÃO", bold: true })]
   }));
   if (presidente) {
-    children.push(blackP(`Exmo. Sr. Desembargador Federal ${toTitleCase(presidente)} - Presidente`));
+    const presFem = getAdvTitle(presidente).title === "DRA.";
+    children.push(blackP(`${presFem ? "Exma. Sra. Desembargadora Federal" : "Exmo. Sr. Desembargador Federal"} ${toTitleCase(presidente)} - President${presFem ? "a" : "e"}`));
   }
   if (desemb2) {
-    children.push(blackP(`Exmo. Sr. Desembargador Federal ${toTitleCase(desemb2)}`));
+    const d2Fem = getAdvTitle(desemb2).title === "DRA.";
+    children.push(blackP(`${d2Fem ? "Exma. Sra. Desembargadora Federal" : "Exmo. Sr. Desembargador Federal"} ${toTitleCase(desemb2)}`));
   }
   if (desemb3) {
-    children.push(blackP(`Exmo. Sr. Desembargador Federal ${toTitleCase(desemb3)}`));
+    const d3Fem = getAdvTitle(desemb3).title === "DRA.";
+    children.push(blackP(`${d3Fem ? "Exma. Sra. Desembargadora Federal" : "Exmo. Sr. Desembargador Federal"} ${toTitleCase(desemb3)}`));
   }
   if (juizAuxLines.length > 0) {
     for (const jl of juizAuxLines) {
-      children.push(blackP(`Exmo. Sr. Juiz Federal ${toTitleCase(jl.trim())}`));
+      const jFem = getAdvTitle(jl.trim()).title === "DRA.";
+      children.push(blackP(`${jFem ? "Exma. Sra. Juíza Federal" : "Exmo. Sr. Juiz Federal"} ${toTitleCase(jl.trim())}`));
     }
   }
   if (prr) {
-    children.push(blackP(`PRR: Dr. ${toTitleCase(prr)}`));
+    const prrTitle = getAdvTitle(prr);
+    children.push(blackP(`PRR: ${prrTitle.title === "DRA." ? "Dra." : "Dr."} ${toTitleCase(prr)}`));
   }
   children.push(blackP("Secretário: Higo Soares Barboza"));
 
@@ -797,10 +865,12 @@ async function handleFile(file) {
     showStatus(msg, "success");
     showPreview(processedData);
     btnGenerate.disabled = false;
-    if (!document.getElementById("dataSessao").value) {
+    if (!document.getElementById("dataSessao").value && processedData.colMap.dataSessao) {
+      const dateCol = processedData.colMap.dataSessao;
       for (const r of rawRows.slice(1)) {
-        if (r.E && typeof r.E === "string" && r.E.includes("/")) {
-          const parts = r.E.split("/");
+        const val = r[dateCol];
+        if (val && typeof val === "string" && val.includes("/")) {
+          const parts = val.split("/");
           if (parts.length===3) { document.getElementById("dataSessao").value=`${parts[0]}/${parts[1]}/${parts[2]}`; break; }
         }
       }
