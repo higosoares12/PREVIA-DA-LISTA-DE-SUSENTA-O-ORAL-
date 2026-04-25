@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prévia de Sustentações Orais — v1.3</title>
+<title>Prévia de Sustentações Orais — v1.4</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -92,14 +92,16 @@
 <body>
 
 <div class="header">
-  <h1>PRÉVIA DE SUSTENTAÇÕES ORAIS - VERSÃO 1.3</h1>
+  <h1>PRÉVIA DE SUSTENTAÇÕES ORAIS - VERSÃO 1.4</h1>
   <p>Gerador automático de lista — TRF1</p>
 </div>
 
 <div class="container">
 
   <div style="background:#fff3e0; border:1px solid #ffcc80; border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:13px; color:#e65100;">
-    <strong>💡 Dica:</strong> Se quiser que um processo não seja inserido na prévia da lista, escreva <strong>EXCLUIR</strong> na coluna de observações (terceira coluna) do Excel.
+    <strong>💡 Dicas:</strong><br>
+    • Para <strong>excluir</strong> um processo da lista, escreva <strong>EXCLUIR</strong> na coluna de observações do Excel.<br>
+    • Para <strong>ocultar</strong> uma observação (não imprimir no Word), escreva <strong>OCULT</strong> em qualquer local da coluna de observações.
   </div>
 
   <!-- STEP 1: Config -->
@@ -381,14 +383,15 @@ function processExcelData(rows) {
     let priority = 4;
     if (obsC && !["","NONE","DUAS SUSTS"].includes(obsC.toUpperCase())) {
       const obsUpper = obsC.toUpperCase();
+      const ocultarObs = obsUpper.includes("OCULT");
       if (obsUpper.includes("PEDIDO DE VISTA")) {
-        obs.push(obsUpper.endsWith(".") ? obsUpper : obsUpper + ".");
+        if (!ocultarObs) obs.push(obsUpper.endsWith(".") ? obsUpper : obsUpper + ".");
         priority = 0;
-      } else if (obsUpper.includes("IDOSO")) { obs.push("IDOSO."); if (priority>1) priority=1; }
-      else if (obsUpper.includes("GESTANTE")) { obs.push("GESTANTE."); if (priority>1) priority=1; }
-      else if (obsUpper.includes("LACTANTE")) { obs.push("LACTANTE."); if (priority>1) priority=1; }
-      else if (obsUpper.includes("COMPROMISSO")) { obs.push(`ADVOGADO(A) INFORMA: ${obsUpper}.`); }
-      else { obs.push(obsUpper); }
+      } else if (obsUpper.includes("IDOSO")) { if (!ocultarObs) obs.push("IDOSO."); if (priority>1) priority=1; }
+      else if (obsUpper.includes("GESTANTE")) { if (!ocultarObs) obs.push("GESTANTE."); if (priority>1) priority=1; }
+      else if (obsUpper.includes("LACTANTE")) { if (!ocultarObs) obs.push("LACTANTE."); if (priority>1) priority=1; }
+      else if (obsUpper.includes("COMPROMISSO")) { if (!ocultarObs) obs.push(`ADVOGADO(A) INFORMA: ${obsUpper}.`); }
+      else { if (!ocultarObs) obs.push(obsUpper); }
     }
     if (priority > 2 && isPresencial) priority = 2;
 
@@ -929,6 +932,42 @@ btnGenerate.addEventListener("click", async () => {
   } catch(err) { showStatus("Erro ao gerar: "+err.message,"error"); console.error(err); }
   finally { btnGenerate.disabled = false; }
 });
+// ============================================================
+//  PERSISTÊNCIA DE CAMPOS (localStorage)
+// ============================================================
+const STORAGE_KEY = "previa_sustentacoes_campos";
+const PERSIST_FIELDS = ["turma","dataSessao","presidente","desemb2","desemb3","juizAux","prr","agrupamento"];
+
+function saveFields() {
+  const data = {};
+  for (const id of PERSIST_FIELDS) {
+    const el = document.getElementById(id);
+    if (el) data[id] = el.value;
+  }
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+function restoreFields() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    for (const id of PERSIST_FIELDS) {
+      const el = document.getElementById(id);
+      if (el && data[id]) el.value = data[id];
+    }
+  } catch(e) {}
+}
+
+// Restaurar ao carregar
+restoreFields();
+
+// Salvar ao alterar qualquer campo
+for (const id of PERSIST_FIELDS) {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener("input", saveFields);
+}
+
 </script>
 </body>
 </html>
