@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prévia de Sustentações Orais — v1.4</title>
+<title>Prévia de Sustentações Orais — v1.5</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -92,7 +92,7 @@
 <body>
 
 <div class="header">
-  <h1>PRÉVIA DE SUSTENTAÇÕES ORAIS - VERSÃO 1.4</h1>
+  <h1>PRÉVIA DE SUSTENTAÇÕES ORAIS - VERSÃO 1.5</h1>
   <p>Gerador automático de lista — TRF1</p>
 </div>
 
@@ -460,7 +460,17 @@ function processExcelData(rows) {
         g.originalIndex = Math.min(g.originalIndex, r.originalIndex);
         for (const o of r.obs) { if (!g.obs.includes(o)) g.obs.push(o); }
         for (const m of (r.missingFields||[])) { if (!g.missingFields.includes(m)) g.missingFields.push(m); }
-        g.lawyers.push(r.lawyer);
+        // Deduplicação de advogado: mesmo nome+OAB = duplicado
+        const advKey = `${stripAccents(r.lawyer.advogado.toUpperCase())}|${(r.lawyer.oab||"").replace(/[\s.]/g,"").toUpperCase()}`;
+        const isDup = g.lawyers.some(l => {
+          const lKey = `${stripAccents(l.advogado.toUpperCase())}|${(l.oab||"").replace(/[\s.]/g,"").toUpperCase()}`;
+          return lKey === advKey;
+        });
+        if (isDup) {
+          g.advDuplicado = true;
+        } else {
+          g.lawyers.push(r.lawyer);
+        }
       }
     }
     for (const e of ungroupedMap.values()) entries.push(e);
@@ -480,6 +490,7 @@ function processExcelData(rows) {
       let bestOriginalIndex = Infinity;
       const allObs = [];
       const allMissing = [];
+      let advDuplicadoFlag = false;
 
       for (const item of groupItems) {
         if (!mainRelator) {
@@ -498,11 +509,13 @@ function processExcelData(rows) {
           subProcesses.push({ cnjDisplay: item.cnjDisplay, sigiloso: item.sigiloso });
         }
 
-        // Collect unique lawyers (dedup by name)
-        const advKey = item.lawyer.advogado.toUpperCase();
+        // Collect unique lawyers (dedup by name+OAB)
+        const advKey = `${stripAccents(item.lawyer.advogado.toUpperCase())}|${(item.lawyer.oab||"").replace(/[\s.]/g,"").toUpperCase()}`;
         if (!seenAdvogado.has(advKey)) {
           seenAdvogado.add(advKey);
           allLawyers.push(item.lawyer);
+        } else {
+          advDuplicadoFlag = true;
         }
       }
 
@@ -517,7 +530,8 @@ function processExcelData(rows) {
         isGrouped: true,
         subProcesses,
         originalIndex: bestOriginalIndex,
-        missingFields: allMissing
+        missingFields: allMissing,
+        advDuplicado: advDuplicadoFlag
       });
     }
 
@@ -734,6 +748,13 @@ function generateWord(data) {
       });
 
       e.obs.forEach(o => { p.push(obsP(o)); });
+
+      if (e.advDuplicado) {
+        p.push(new Paragraph({
+          ...basePara, alignment: AlignmentType.JUSTIFIED,
+          children: [new TextRun({ font:"Arial", size:24, color:"FF0000", bold:true, text:"OBS: ADV DUPLICADO PARA O MESMO PROCESSO." })]
+        }));
+      }
 
       p.push(sep());
     });
