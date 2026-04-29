@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prévia de Sustentações Orais — v1.5</title>
+<title>Prévia de Sustentações Orais — v1.6</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -92,7 +92,7 @@
 <body>
 
 <div class="header">
-  <h1>PRÉVIA DE SUSTENTAÇÕES ORAIS - VERSÃO 1.5</h1>
+  <h1>PRÉVIA DE SUSTENTAÇÕES ORAIS - VERSÃO 1.6</h1>
   <p>Gerador automático de lista — TRF1</p>
 </div>
 
@@ -319,27 +319,38 @@ function processExcelData(rows) {
   const headerRow = rows[0] || {};
   const colMap = {}; // campo semântico → letra da coluna
   const fieldPatterns = {
-    classe:       /classe\s*judicial/i,
-    sigiloso:     /sigiloso/i,
-    obs:          /observa[çc][ãa]o/i,
-    cnj:          /n[º°]\s*processo|processo.*cnj/i,
-    dataSessao:   /data\s*sess[ãa]o/i,
-    relator:      /relator/i,
-    tipo:         /prefer[eê]ncia.*oral|sust.*oral/i,
-    modalidade:   /modalidade/i,
-    advogado:     /advogado/i,
-    oab:          /oab/i,
-    representada: /parte\s*representada/i,
-    poloAtivo:    /polo\s*ativo|1[º°]\s*polo\s*ativo/i,
-    poloPassivo:  /polo\s*passivo|1[º°]\s*polo\s*passivo/i
+    classe:       { regex: /classe\s*judicial/i, label: "Classe Judicial", critical: true },
+    sigiloso:     { regex: /sigiloso/i, label: "Sigiloso", critical: false },
+    obs:          { regex: /observa[çc][ãa]o/i, label: "Observação", critical: false },
+    cnj:          { regex: /n[º°]\s*processo|processo.*cnj/i, label: "Nº Processo", critical: true },
+    dataSessao:   { regex: /data\s*sess[ãa]o/i, label: "Data Sessão", critical: false },
+    relator:      { regex: /relator/i, label: "Relator(a)", critical: true },
+    tipo:         { regex: /prefer[eê]ncia.*oral|sust.*oral/i, label: "Preferência/Sust. Oral", critical: true },
+    modalidade:   { regex: /modalidade/i, label: "Modalidade", critical: true },
+    advogado:     { regex: /advogado/i, label: "Advogado(a)", critical: true },
+    oab:          { regex: /oab/i, label: "OAB", critical: true },
+    representada: { regex: /parte\s*representada/i, label: "Parte Representada", critical: true },
+    poloAtivo:    { regex: /polo\s*ativo|1[º°]\s*polo\s*ativo/i, label: "1º Polo Ativo", critical: true },
+    poloPassivo:  { regex: /polo\s*passivo|1[º°]\s*polo\s*passivo/i, label: "1º Polo Passivo", critical: true }
   };
   for (const colLetter of Object.keys(headerRow)) {
     const headerVal = (headerRow[colLetter] || "").toString().trim();
     if (!headerVal) continue;
-    for (const [field, pattern] of Object.entries(fieldPatterns)) {
-      if (!colMap[field] && pattern.test(headerVal)) {
+    for (const [field, cfg] of Object.entries(fieldPatterns)) {
+      if (!colMap[field] && cfg.regex.test(headerVal)) {
         colMap[field] = colLetter;
       }
+    }
+  }
+
+  // Validação de colunas
+  const colValidation = { found: [], missing: [], missingCritical: [] };
+  for (const [field, cfg] of Object.entries(fieldPatterns)) {
+    if (colMap[field]) {
+      colValidation.found.push({ field, label: cfg.label, col: colMap[field] });
+    } else {
+      colValidation.missing.push({ field, label: cfg.label, critical: cfg.critical });
+      if (cfg.critical) colValidation.missingCritical.push(cfg.label);
     }
   }
   // Helper: lê campo semântico de uma row
@@ -577,7 +588,8 @@ function processExcelData(rows) {
   return {
     sustentacoes: groupEntries(susts),
     preferencias: groupEntries(prefs),
-    colMap
+    colMap,
+    colValidation
   };
 }
 
@@ -886,7 +898,20 @@ async function handleFile(file) {
     const grouped = processedData.sustentacoes.filter(e => e.isGrouped).length;
     let msg = `✓ ${processedData.sustentacoes.length} sustentações orais e ${processedData.preferencias.length} pedido(s) de preferência.`;
     if (grouped > 0) msg += ` (${grouped} grupo(s) agrupado(s))`;
-    showStatus(msg, "success");
+
+    // Validação de colunas
+    const v = processedData.colValidation;
+    if (v.missingCritical.length > 0) {
+      msg += `\n⚠ COLUNAS NÃO ENCONTRADAS: ${v.missingCritical.join(", ")}. O Word pode sair com dados faltando!`;
+      showStatus(msg, "error");
+    } else if (v.missing.length > 0) {
+      const optLabels = v.missing.map(m => m.label).join(", ");
+      msg += `\n⚠ Colunas opcionais ausentes: ${optLabels}.`;
+      showStatus(msg, "success");
+    } else {
+      msg += `\n✓ Todas as ${v.found.length} colunas identificadas.`;
+      showStatus(msg, "success");
+    }
     showPreview(processedData);
     btnGenerate.disabled = false;
     if (!document.getElementById("dataSessao").value && processedData.colMap.dataSessao) {
@@ -936,7 +961,7 @@ function showPreview(data) {
   previewEl.style.display = "block";
 }
 
-function showStatus(msg, type) { statusEl.textContent = msg; statusEl.className = "status " + type; }
+function showStatus(msg, type) { statusEl.style.whiteSpace = "pre-line"; statusEl.textContent = msg; statusEl.className = "status " + type; }
 
 btnGenerate.addEventListener("click", async () => {
   if (!processedData) return;
